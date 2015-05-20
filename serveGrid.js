@@ -2,9 +2,9 @@ var http = require("http"),
     url = require("url"),
     path = require("path"),
     fs = require("fs"),
-    port = process.argv[2] || 8000;
+    port = process.argv[2] || 8100;
 
-var getData = require("./logSearch");
+var pts = require ("./makegrid.js");
 
 
 http.createServer(function(request, response) {
@@ -16,7 +16,7 @@ http.createServer(function(request, response) {
 
 //console.log("ok", uri, filename, pathkey);
 
-      if (pathkey == "search") {
+      if (pathkey == "make") {
         var incoming = '';
 
         request.on('data', function(data) {
@@ -29,19 +29,10 @@ http.createServer(function(request, response) {
         request.on("end", function() {
 
            if(incoming) {
-//console.log("start", new Date());
-            getData.logSearch(JSON.parse(incoming), function(arraydata) {
 
-              
-//console.log("results", arraydata);
-  //   response.setHeader("Content-Type", "text/plain");
-  //   response.setHeader("Access-Control-Allow-Origin", "*");   
-  //   response.end(JSON.stringify(mainObj.objArray)); 
-//console.log("end", new Date());
-              response.end(JSON.stringify(arraydata));
-            });
-
-            
+			  	var ptsArr = pts.makeGrid();
+				
+              	response.end(JSON.stringify(ptsArr));           
             
           } 
                 
@@ -52,6 +43,14 @@ http.createServer(function(request, response) {
 
 
       //STATIC FILES
+   
+	  if (uri === '/favicon.ico') {
+		response.writeHead(200, {'Content-Type': 'image/x-icon'} );
+		response.end();
+		//console.log('favicon requested');
+		return;
+	  }
+	  	  
       if (fs.statSync(filename).isDirectory()) filename += '/index.html';
 
       fs.readFile(filename, "binary", function(err, file) {

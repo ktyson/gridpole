@@ -1,0 +1,123 @@
+<html>
+<head>
+
+<script src="jquery-2.1.4.min.js"></script>
+<script>
+
+var canvas;
+var context;
+var GridPts = {};
+     
+$(document).ready(function() {
+
+	canvas = document.getElementById('myCanvas');
+	context = canvas.getContext('2d');
+	sendRequest();
+	
+});
+
+function sendRequest() {
+
+	$.ajax({
+		url : "http://localhost:8100/make",
+		type: "POST",
+		data: JSON.stringify({test:"this"}),
+		dataType: "json",
+		contentType: "text/plain",
+		success: function(data) {
+		
+			GridPts = data;
+			drawGrid();			
+		
+		},
+		error: function(request, error) {
+			alert("err " + JSON.stringify(request));
+		}
+	});
+
+}
+
+function drawGrid() {
+// scale = 200; //1 meter = [scale=200] pixels
+
+	var offsetHor = 100;
+	var offsetVert = 800;
+	
+	var heightMeters = 4;
+	var widthMeters = 0.2;	
+	var scale = 100;  //1 meter = [scale] pixels
+	
+	drawDot((0* scale) + offsetHor, offsetVert - (0 * scale), 5);
+	
+	for(var key in GridPts) {
+		
+		var val = GridPts[key];
+		
+		//reference grid from top
+			
+		var x = offsetHor + (val.x * scale);
+		var y = offsetVert - (val.y * scale); 
+		var d = 5;
+
+		drawDot(x,y,d);
+		
+		//perspectival grid from front
+		var displ = val.dist * val.rad;
+
+		if(val.dist != 0) {
+			x = offsetHor + (displ * scale);			
+		}else {
+			x = offsetHor + val.dist;
+		}
+		
+
+		var l = (widthMeters/val.dist) * scale;// * scale;
+		
+		var h = (heightMeters/val.dist) * scale;// * scale;
+		var y = 300 - h;
+		
+		drawRect(x,y,l,h);
+
+	}	
+
+
+}
+
+
+function drawRect(x,y,l,h) {
+
+
+      context.beginPath();
+      //left, top, len, hgt
+      context.rect(x,y,l,h);
+      
+      context.fillStyle = 'black';
+      context.fill();
+      context.lineWidth = 2;
+      context.strokeStyle = 'black';
+      context.stroke();
+      
+}
+
+function drawDot(x,y,d) {
+
+	context.beginPath();
+	//ctrX, ctrY, radius
+	context.arc(x,y,parseInt(d/2),0,Math.PI*2,true);
+	
+	context.fillStyle = 'black';
+    context.fill();
+	context.lineWidth = 2;
+	context.strokeStyle = 'black';
+	context.stroke();
+	
+}
+
+</script>
+
+
+</head>
+<body>
+<canvas id="myCanvas" width="1800" height="800"></canvas>
+</body>
+</html>
