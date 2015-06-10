@@ -1,0 +1,19 @@
+{
+  "name": "gridpole",
+  "version": "0.0.0",
+  "description": "a grid of poles",
+  "main": "serveGrid.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ktyson/gridpole.git"
+  },
+  "author": "kdtyson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ktyson/gridpole/issues"
+  },
+  "homepage": "https://github.com/ktyson/gridpole"
+}
