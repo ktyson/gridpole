@@ -19,7 +19,7 @@ $(document).ready(function() {
 function sendRequest() {
 
 	$.ajax({
-		url : "http://app-a7f42001-8553-4f34-a596-39754e6601dd.cleverapps.io:8080/make",
+		url : "/make",
 		type: "POST",
 		data: JSON.stringify({test:"this"}),
 		dataType: "json",
