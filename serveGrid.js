@@ -10,11 +10,11 @@ var pts = require ("./makegrid.js");
 http.createServer(function(request, response) {
 
   
-  var uri = url.parse(request.url).pathname, 
+var uri = url.parse(request.url).pathname, 
     filename = path.join(process.cwd(), uri),
     pathkey = uri.substr(uri.lastIndexOf('/') + 1);
 
-//console.log("ok", uri, filename, pathkey);
+console.log("ok", uri, filename, pathkey);
 
       if (pathkey == "make") {
         var incoming = '';
@@ -22,7 +22,7 @@ http.createServer(function(request, response) {
         request.on('data', function(data) {
 
           incoming += data;
-//console.log(" we got: " + incoming);
+console.log(" we got: " + incoming);
         
         });
 
