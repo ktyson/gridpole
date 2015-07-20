@@ -47,7 +47,9 @@ function drawGrid() {
 	var widthMeters = 0.2;	
 	var scale = 100;  //1 meter = [scale] pixels
 	
-	drawDot((0* scale) + offsetHor, offsetVert - (0 * scale), 5);
+	drawDot((0 * scale) + offsetHor, offsetVert - (0 * scale), 5);
+	
+	var oldHt = 0;
 	
 	for(var key in GridPts) {
 		
@@ -62,27 +64,31 @@ function drawGrid() {
 		drawDot(x,y,d);
 		
 		//perspectival grid from front
-		var displ = val.dist * val.rad;
 
-		if(val.dist != 0) {
-			x = offsetHor + (displ * scale);			
-		}else {
-			x = offsetHor + val.dist;
-		}
 		
 
 		var l = (widthMeters/val.dist) * scale;// * scale;
 		
 		var h = (heightMeters/val.dist) * scale;// * scale;
+		
+		var displ = val.dist * val.rad;
+		var xAdj = ((oldHt - h)/2);
+		
+		if(val.dist != 0) {
+			x = offsetHor + (displ * scale) + xAdj;			
+		}else {
+			x = offsetHor + val.dist;
+		}				
+	
 		var y = 300 - h;
 		
 		drawRect(x,y,l,h);
+		
+		oldHt = h;
 
 	}	
 
-
 }
-
 
 function drawRect(x,y,l,h) {
 
