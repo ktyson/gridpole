@@ -1,0 +1,46 @@
+<html>
+<head>
+
+<script src="jquery-2.1.4.min.js" type="text/javascript"></script>
+<script>
+
+$(document).ready(function() {
+
+	var canvas = document.getElementById("myCanvas");
+	var ctx = canvas.getContext("2d");
+
+	ctx.fillRect(100,100,5,5);
+
+	var vecLen = 0;
+	var vecIncr = 1;
+	var x1 = 100;
+	var y1 = 100;
+
+	for(var theta = 0; theta <= Math.PI*12; theta = theta + (Math.PI/6)) {
+
+		var x2 = x1 + Math.cos(theta) * vecLen
+		var y2 = y1 + Math.sin(theta) * vecLen
+
+console.log(theta, vecLen, x2, y2);
+
+		ctx.fillRect(x2,y2,5,5);
+		vecLen += vecIncr;
+	}
+
+
+});
+
+</script>
+
+
+
+</style>
+
+
+</head>
+<body>
+<canvas id="myCanvas" width="500px" height="500px"></canvas>
+
+
+</body>
+</html>
